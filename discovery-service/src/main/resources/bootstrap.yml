@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: discovery
+  cloud:
+    config:
+      uri: http://127.0.0.1:8880
+      fail-fast: true
+      password: 'helloWorld'
+      username: user
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+      enableSelfPreservation: false
