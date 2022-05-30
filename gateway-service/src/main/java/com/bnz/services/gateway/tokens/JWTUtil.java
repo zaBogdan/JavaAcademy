@@ -17,9 +17,6 @@ public class JWTUtil {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    @Value("${jwt.lifeSpan}")
-    private long lifeSpan;
-
     public Claims getClaims(final String token) {
         try {
             Claims body = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
@@ -31,13 +28,7 @@ public class JWTUtil {
     }
 
     // TODO: Change this when you have a user model
-    public String generateToken(String id) {
-        Claims claims =  Jwts.claims().setSubject(id);
-        long now = System.currentTimeMillis();
-        Date avail = new Date(now);
-        Date exp = new Date(now + lifeSpan);
-        return Jwts.builder().setClaims(claims).setIssuedAt(avail).setExpiration(exp).signWith(SignatureAlgorithm.HS256, jwtSecret).compact();
-    }
+
 
     public void validateToken(String token) throws JwtTokenMalformedException, JwtTokenMissingException {
         try {
