@@ -10,20 +10,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
     private AuthService authService;
+    @Autowired
+    private final JWTokenUtils jwTokenUtils = new JWTokenUtils();
 
     @PostMapping(value="/login", consumes = "application/json")
-    public ResponseEntity<Response<String>> loginUser(@RequestBody User user) {
+    public ResponseEntity<Response<Map<String, String>>> loginUser(@RequestBody User user) {
         try {
             User authUser = authService.login(user);
-            JWTokenUtils token = new JWTokenUtils();
-            System.out.println(authUser);
-            System.out.println(token.generateToken(authUser.getId()));
-            return new ResponseEntity<>(new Response<>(true, "Successfully logged in", token.generateToken(authUser.getId())), HttpStatus.OK);
+            return new ResponseEntity<>(new Response<>(true, "Successfully logged in", jwTokenUtils.generateToken(authUser)), HttpStatus.OK);
         } catch (ResponseStatusException e){
             return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());
         }

@@ -2,6 +2,7 @@ package com.bnz.services.auth.services;
 
 import com.bnz.services.auth.models.User;
 import com.bnz.services.auth.respository.UserRepository;
+import com.bnz.services.auth.utils.JWTokenUtils;
 import com.bnz.services.auth.utils.passwords.BCryptHash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,0 +1,53 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  Authentication:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+      args:
+        jar_name: auth-service
+        jar_path: auth
+        jar_port: 8882
+    image: bnz/auth-service
+    restart: always
+    depends_on:
+      - Configuration
+      - Discovery
+  Configuration:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+      args:
+        jar_name: config-service
+        jar_path: config
+        jar_port: 8880
+    image: bnz/config-service
+    restart: always
+  Discovery:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+      args:
+        jar_name: discovery-service
+        jar_path: discovery
+        jar_port: 8761
+    image: bnz/discovery-service
+    restart: always
+    depends_on:
+      - Configuration
+  Gateway:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+      args:
+        jar_name: gateway-service
+        jar_path: gateway
+        jar_port: 3000
+    image: bnz/gateway-service
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - Configuration
+      - Discovery
+
