@@ -1,0 +1,1 @@
+docker run -d --name oracleDB -v /Users/zabogdan/Documents/Work/UAIC/oracle_11g:/u01/app/oracle -e DEFAULT_SYS_PASS==root -p 8080:8080 -p 1521:1521 acktsw/oracle-xe-11g

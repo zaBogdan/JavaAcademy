@@ -1,0 +1,16 @@
+server:
+  port: 8884
+
+spring:
+  datasource:
+    url: 'jdbc:oracle:thin:@localhost:1521:XE'
+    username: 'zabogdan'
+    password: 'root'
+    driver-class-name=com: com.mysql.cj.jdbc.Driver
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: 'http://127.0.0.1:8761/eureka'
