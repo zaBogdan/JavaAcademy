@@ -1,4 +1,4 @@
-package com.bnz.services.auth.utils.passwords;
+package com.bnz.shared.security.passwords;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

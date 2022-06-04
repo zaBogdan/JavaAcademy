@@ -1,9 +1,9 @@
 package com.bnz.services.gateway.filters;
 
 import com.bnz.services.gateway.Models.ResponseModel;
-import com.bnz.services.gateway.exceptions.JwtTokenMalformedException;
-import com.bnz.services.gateway.exceptions.JwtTokenMissingException;
-import com.bnz.services.gateway.tokens.JWTUtil;
+import com.bnz.shared.exceptions.JwtTokenMalformedException;
+import com.bnz.shared.exceptions.JwtTokenMissingException;
+import com.bnz.shared.security.tokens.JWTokenHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -20,14 +21,14 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 @Component
 public class JWTAuthFilter implements GatewayFilter {
+
     @Autowired
-    private JWTUtil jwtUtil;
+    private JWTokenHandler jwTokenHandler = new JWTokenHandler();
 
     private final List<String> openEndPoints = Arrays.asList(
             "/auth/login",
@@ -47,13 +48,11 @@ public class JWTAuthFilter implements GatewayFilter {
                 if(!request.getHeaders().containsKey("Authorization")) {
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
                 }
+                HttpHeaders headers = request.getHeaders();
+                jwTokenHandler.validate(headers);
 
-                final String token = request.getHeaders().getOrEmpty("Authorization").get(0).split(" ")[1];
-                jwtUtil.validateToken(token);
-
-                Claims claims = jwtUtil.getClaims(token);
-
-                exchange.getRequest().mutate().header("id", String.valueOf(claims.get("id"))).build();
+                Claims claims = jwTokenHandler.getDataFromTokens(headers);
+                exchange.getRequest().mutate().header("X-BNZ-TOKEN-VALIDATION", claims.getId());
             }
 
         } catch (JwtTokenMissingException | JwtTokenMalformedException e) {

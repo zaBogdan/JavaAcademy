@@ -1,9 +1,6 @@
-package com.bnz.services.auth.models;
+package com.bnz.shared.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Response<Model> {
     private boolean success;

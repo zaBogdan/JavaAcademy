@@ -1,4 +1,4 @@
-package com.bnz.services.gateway.exceptions;
+package com.bnz.shared.exceptions;
 
 import javax.naming.AuthenticationException;
 

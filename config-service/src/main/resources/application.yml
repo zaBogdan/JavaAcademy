@@ -10,12 +10,5 @@ spring:
     user:
       password: 'helloWorld'
 
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    serviceUrl:
-      defaultZone: 'http://Discovery:8761/eureka'
-
 server:
   port: 8880

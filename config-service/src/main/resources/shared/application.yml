@@ -1,0 +1,5 @@
+globals:
+  jwt:
+    secret: 'helloWorld'
+    freshLifeSpan: 3600000
+    refreshLifeSpan: 86400000

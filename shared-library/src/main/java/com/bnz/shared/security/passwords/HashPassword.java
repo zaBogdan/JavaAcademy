@@ -1,4 +1,4 @@
-package com.bnz.services.auth.utils.passwords;
+package com.bnz.shared.security.passwords;
 
 public interface HashPassword {
     static String hash(String password) {

@@ -1,16 +1,15 @@
 package com.bnz.services.auth.controllers;
 
-import com.bnz.services.auth.models.Response;
-import com.bnz.services.auth.models.User;
+import com.bnz.shared.models.Response;
+import com.bnz.shared.models.User;
 import com.bnz.services.auth.services.AuthService;
-import com.bnz.services.auth.utils.JWTokenUtils;
+import com.bnz.shared.security.tokens.JWTokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -19,13 +18,13 @@ public class AuthController {
     @Autowired
     private AuthService authService;
     @Autowired
-    private final JWTokenUtils jwTokenUtils = new JWTokenUtils();
+    private final JWTokenHandler jwTokenHandler = new JWTokenHandler();
 
     @PostMapping(value="/login", consumes = "application/json")
     public ResponseEntity<Response<Map<String, String>>> loginUser(@RequestBody User user) {
         try {
             User authUser = authService.login(user);
-            return new ResponseEntity<>(new Response<>(true, "Successfully logged in", jwTokenUtils.generateToken(authUser)), HttpStatus.OK);
+            return new ResponseEntity<>(new Response<>(true, "Successfully logged in", jwTokenHandler.generateTokenPair(authUser)), HttpStatus.OK);
         } catch (ResponseStatusException e){
             return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());
         }

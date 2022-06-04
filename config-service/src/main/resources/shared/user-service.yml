@@ -2,7 +2,6 @@ spring:
   data:
     mongodb:
       uri: 'mongodb+srv://zabogdan:vDwSIlWIyLCVML46@zawebsite.k2dgi.mongodb.net/JavaCompiler?retryWrites=true&w=majority'
-
 eureka:
   instance:
     prefer-ip-address: true

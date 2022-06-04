@@ -6,10 +6,7 @@ import com.bnz.services.plsqlcompiler.services.SQLService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -22,6 +19,15 @@ public class SQLController {
     public ResponseEntity<Response<String>> acceptAnswers(@RequestBody Request req) {
         try {
             return new ResponseEntity<>(new Response<>(true, "Successfully submitted test", sqlService.execute(req.getQuery())), HttpStatus.OK);
+        } catch (ResponseStatusException e){
+            return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());
+        }
+    }
+
+    @GetMapping(value="/stats")
+    public ResponseEntity<Response<String>> getStats() {
+        try {
+            return new ResponseEntity<>(new Response<>(true, "Successfully submitted test", sqlService.statistics("zaBogdan")), HttpStatus.OK);
         } catch (ResponseStatusException e){
             return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());
         }
