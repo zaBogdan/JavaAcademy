@@ -19,7 +19,7 @@ public class ReferralService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Value("${globals.backend.api}")
-    private final String backendURL = "http://localhost:3000";
+    private final String backendURL = "https://java-api.pground.io";
 
     @Autowired
     private UserService userService;

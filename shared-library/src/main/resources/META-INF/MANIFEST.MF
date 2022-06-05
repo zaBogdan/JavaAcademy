@@ -1,5 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: 
 Class-Path: jackson-databind-2.13.3.jar spring-webmvc-5.3.20.jar jackson
  -module-parameter-names-2.13.3.jar spring-boot-starter-2.7.0.jar logbac
  k-classic-1.2.11.jar spring-boot-starter-logging-2.7.0.jar spring-expre

@@ -1,0 +1,12 @@
+spring:
+  data:
+    mongodb:
+      uri: 'mongodb+srv://zabogdan:vDwSIlWIyLCVML46@zawebsite.k2dgi.mongodb.net/JavaCompiler?retryWrites=true&w=majority'
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: 'http://Discovery:8761/eureka'
+server:
+  port: 8885

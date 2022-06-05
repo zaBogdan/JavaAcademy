@@ -1,8 +1,6 @@
 spring:
-  main:
-    web-application-type: reactive
   application:
-    name: gateway
+    name: quizzes-service
   cloud:
     config:
       uri: http://127.0.0.1:8880

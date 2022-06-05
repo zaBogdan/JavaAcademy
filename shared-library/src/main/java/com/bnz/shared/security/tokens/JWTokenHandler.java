@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -56,6 +57,10 @@ public class JWTokenHandler {
         final String token = getToken(headers);
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims;
+    }
+
+    public Map<String, Object> getTokenData(HttpHeaders headers) {
+        return new HashMap<>(getDataFromTokens(headers));
     }
 
     public Map<String, String> generateTokenPair(User user) {

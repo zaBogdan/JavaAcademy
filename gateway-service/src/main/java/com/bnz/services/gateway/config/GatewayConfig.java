@@ -16,7 +16,7 @@ public class GatewayConfig {
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("auth", r -> r.path("/auth/**").filters(f -> f.filter(filter)).uri("lb://auth-service"))
-                .route("tests", r -> r.path("/tests/sql/**").filters(f -> f.filter(filter)).uri("lb://plsql-compiler"))
+                .route("quiz", r -> r.path("/quiz/**").filters(f -> f.filter(filter)).uri("lb://quizzes-service"))
                 .route("user", r -> r.path("/user/**").filters(f -> f.filter(filter)).uri("lb://user-service"))
                 .build();
     }

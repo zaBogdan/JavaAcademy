@@ -50,4 +50,16 @@ services:
     depends_on:
       - Configuration
       - Discovery
-
+  Users:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+      args:
+        jar_name: user-service
+        jar_path: users
+        jar_port: 8885
+    image: bnz/users-service
+    restart: always
+    depends_on:
+      - Configuration
+      - Discovery
