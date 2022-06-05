@@ -1,6 +1,7 @@
 package com.bnz.services.users.services;
 
 import com.bnz.services.users.models.RoleOperation;
+import com.bnz.services.users.repository.ReferralRepository;
 import com.bnz.services.users.repository.UserRepository;
 import com.bnz.shared.models.User;
 import com.bnz.shared.security.passwords.BCryptHash;
@@ -19,6 +20,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ReferralRepository referralRepository;
 
     public User getCurrentUser(String id) {
         User user = userRepository.getUserById(id);
@@ -44,7 +48,7 @@ public class UserService {
         return user;
     }
 
-    public void appendRole(String id, RoleOperation body) {
+    public String appendRole(String id, RoleOperation body) {
         User user = getCurrentUser(id);
         if(body.getRemove() != null && body.getAppend() != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't both append and remove a role!");
@@ -72,5 +76,8 @@ public class UserService {
             user.deleteRole(value);
         }
         userRepository.save(user);
+        return role;
     }
+
+
 }

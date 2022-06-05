@@ -52,10 +52,11 @@ public class UserController {
     public ResponseEntity<Response<Void>> appendRole(@RequestHeader HttpHeaders headers, @RequestBody RoleOperation body) {
         try {
             Claims claims = jwTokenHandler.getDataFromTokens(headers);
-            userService.appendRole(claims.getSubject(), body);
-            return new ResponseEntity<>(new Response<>(true, "Successfully fetched current user!"), HttpStatus.OK);
+            String role = userService.appendRole(claims.getSubject(), body);
+            return new ResponseEntity<>(new Response<>(true, String.format("Successfully added `%s` to yourself!",role)), HttpStatus.OK);
         }catch(ResponseStatusException ex) {
             return new ResponseEntity<>(new Response<>(false, ex.getReason()), ex.getStatus());
         }
     }
+
 }

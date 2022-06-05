@@ -1,8 +1,11 @@
 package com.bnz.services.auth.services;
 
+import com.bnz.services.auth.respository.ReferralRepository;
+import com.bnz.shared.models.Referral;
 import com.bnz.shared.models.User;
 import com.bnz.services.auth.respository.UserRepository;
 import com.bnz.shared.security.passwords.BCryptHash;
+import com.bnz.shared.users.roles.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,11 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ReferralRepository referralRepository;
+
+
     public User login(User user) {
         User currentUser = null;
         if(user.getEmail() != null) {
@@ -30,11 +38,12 @@ public class AuthService {
         if(!BCryptHash.verify(currentUser.getPassword(), user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Wrong password.");
         }
+        user.setRole(Roles.DEFAULT.getValue());
         log.info("Successfully got current user!");
         return currentUser;
     }
 
-    public void create(User user) {
+    public void create(User user, String referral) {
         User oldUser = userRepository.findByUsername(user.getUsername());
         if(oldUser != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email or username already exists");
@@ -46,7 +55,14 @@ public class AuthService {
         user.setPassword(
                 BCryptHash.hash(user.getPassword())
         );
-        log.debug("This is the request body: "+ user.toString());
-        userRepository.save(user);
+        User newUser = userRepository.save(user);
+        if(referral != null) {
+            Referral ref =  referralRepository.findByReferral(referral);
+            if(ref == null) {
+                return;
+            }
+            ref.addNewReferredUser(newUser);
+            referralRepository.save(ref);
+        }
     }
 }

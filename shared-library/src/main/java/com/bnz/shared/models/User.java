@@ -12,14 +12,22 @@ import java.util.Collection;
 @Document(collection = "users")
 public class User {
     @Id
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String id;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String username;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String email;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String password;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String firstName;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String lastName;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int role = 0;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private long score = 0;
 
     public String getId() {
         return id;
@@ -87,6 +95,14 @@ public class User {
     }
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public long getScore() {
+        return score;
+    }
+
+    public void setScore(long score) {
+        this.score = score;
     }
 
     @Override

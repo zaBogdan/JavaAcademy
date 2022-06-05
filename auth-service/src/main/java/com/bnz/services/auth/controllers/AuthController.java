@@ -31,9 +31,9 @@ public class AuthController {
     }
 
     @PostMapping(value="/register", consumes = "application/json")
-    public ResponseEntity<Response<Void>> createUser(@RequestBody User user) {
+    public ResponseEntity<Response<Void>> createUser(@RequestParam(name = "ref", required = false) String referral,@RequestBody User user) {
         try {
-            authService.create(user);
+            authService.create(user, referral);
             return new ResponseEntity<>(new Response<>(true, "Successfully created user"), HttpStatus.OK);
         } catch(ResponseStatusException e) {
             return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());

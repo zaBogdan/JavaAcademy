@@ -3,3 +3,7 @@ globals:
     secret: 'helloWorld'
     freshLifeSpan: 3600000
     refreshLifeSpan: 86400000
+
+  backend:
+    api: http://localhost:3000/
+#    api: https://java-api.pground.io
