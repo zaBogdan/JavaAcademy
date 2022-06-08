@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mongodb.lang.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +34,8 @@ public class Quiz {
     @NonNull
     private List<Question> questions;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<Attenders> attenders;
+    @Field(write= Field.Write.ALWAYS)
+    private List<Attenders> attenders = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -135,8 +137,6 @@ public class Quiz {
     }
 
     public void attendersQuestion(Attenders a) {
-        if(attenders == null)
-            attenders = new ArrayList<>();
         attenders.add(a);
     }
 

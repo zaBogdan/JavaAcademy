@@ -7,7 +7,10 @@ import com.bnz.services.quizzes.models.Quiz;
 import com.bnz.services.quizzes.repository.QuizRepository;
 import com.bnz.services.quizzes.repository.UserRepository;
 import com.bnz.services.quizzes.utils.AttenderStatus;
+import com.bnz.shared.constants.RabbitMQConstants;
+import com.bnz.shared.models.RabbitMQModel;
 import com.bnz.shared.models.User;
+import com.bnz.services.quizzes.utils.rabbitmq.Publisher;
 import com.bnz.shared.users.roles.Roles;
 import com.bnz.shared.users.roles.RolesUtil;
 import org.slf4j.Logger;
@@ -33,7 +36,8 @@ public class QuizService {
     @Autowired
     private UserRepository userRepository;
 
-//    private final WebClient webClient = WebClientBean.localApiClient();
+    @Autowired
+    private Publisher publisher;
 
     public void createQuiz(Quiz quiz, Map<String, Object> data) {
         if(!RolesUtil.hasMinimumRequiredRole((int)data.get("role"), Roles.TEACHER)) {
@@ -66,7 +70,13 @@ public class QuizService {
         if(quiz == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Couldn't find quiz.");
         }
+        if(quiz.getAttenders() == null || quiz.getAttenders().size() < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You didn't start the quiz.");
+        }
         Attenders attender = quiz.getAttenders().parallelStream().filter(x -> x.getUserId().equals(userId)).findFirst().get();
+        if(attender == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You didn't start the quiz.");
+        }
         try {
             validateQuiz(quiz);
             attender.setStatus(AttenderStatus.FINISHED.getValue());
@@ -87,7 +97,7 @@ public class QuizService {
             if(question.getType() == 1) {
                 attender.setStatus(AttenderStatus.IN_VERIFICATION_PROCESS.getValue());
                 // publish to rabbit
-                System.out.println(questionResponse);
+                publisher.send(RabbitMQConstants.ROUTING_KEY_PROCESSING,new RabbitMQModel<>("question-compiler", "quizzes-service", questionResponse));
             } else {
                 // check for single/multiple choice
                 // TODO: here we should add support

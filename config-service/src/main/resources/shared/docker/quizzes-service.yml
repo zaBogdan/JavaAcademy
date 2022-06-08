@@ -2,6 +2,11 @@ spring:
   data:
     mongodb:
       uri: 'mongodb+srv://zabogdan:vDwSIlWIyLCVML46@zawebsite.k2dgi.mongodb.net/JavaCompiler?retryWrites=true&w=majority'
+    rabbitmq:
+      host: 127.0.0.1
+      port: 5672
+      username: guest
+      password: guest
 eureka:
   instance:
     prefer-ip-address: true
@@ -10,3 +15,10 @@ eureka:
       defaultZone: 'http://Discovery:8761/eureka'
 server:
   port: 8886
+
+bnz:
+  rabbitmq:
+    processingQueue: 'quiz_processing_queue'
+    responseQueue: 'quiz_response_queue'
+    queue:
+      consumerQueue: 'quiz_response_queue'

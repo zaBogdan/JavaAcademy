@@ -1,0 +1,2 @@
+VHOST: /
+QUEUE: quiz_processing_queue
