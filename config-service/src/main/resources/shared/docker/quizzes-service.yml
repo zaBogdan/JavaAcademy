@@ -3,7 +3,7 @@ spring:
     mongodb:
       uri: 'mongodb+srv://zabogdan:vDwSIlWIyLCVML46@zawebsite.k2dgi.mongodb.net/JavaCompiler?retryWrites=true&w=majority'
     rabbitmq:
-      host: 127.0.0.1
+      host: RabbitQueue
       port: 5672
       username: guest
       password: guest

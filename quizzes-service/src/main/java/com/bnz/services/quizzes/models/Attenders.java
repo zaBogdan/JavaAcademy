@@ -1,5 +1,6 @@
 package com.bnz.services.quizzes.models;
 
+import com.bnz.shared.models.QuestionResponse;
 import com.bnz.shared.models.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.mongodb.core.mapping.Field;

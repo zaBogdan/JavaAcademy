@@ -2,7 +2,7 @@ package com.bnz.services.quizzes.services;
 
 import com.bnz.services.quizzes.models.Attenders;
 import com.bnz.services.quizzes.models.Question;
-import com.bnz.services.quizzes.models.QuestionResponse;
+import com.bnz.shared.models.QuestionResponse;
 import com.bnz.services.quizzes.models.Quiz;
 import com.bnz.services.quizzes.repository.QuizRepository;
 import com.bnz.services.quizzes.repository.UserRepository;
@@ -84,9 +84,10 @@ public class QuizService {
             System.err.println(e.getMessage());
             attender.setStatus(AttenderStatus.NOT_FINISHED_IN_TIME.getValue());
         }
-        if(attender.getFinishedAt() != null || attender.getStatus() != AttenderStatus.STARTED.getValue()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You've already responded to this quiz");
-        }
+//TODO: Add this check back!
+//        if(attender.getFinishedAt() != null || attender.getStatus() != AttenderStatus.STARTED.getValue()) {
+//            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You've already responded to this quiz");
+//        }
         attender.setFinishedAt(new Date());
 
         for(QuestionResponse questionResponse : responseList) {

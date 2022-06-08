@@ -1,4 +1,4 @@
-package com.bnz.services.quizzes.models;
+package com.bnz.shared.models;
 
 public class QuestionResponse {
     private String questionUID;

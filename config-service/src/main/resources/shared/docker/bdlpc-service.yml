@@ -1,0 +1,20 @@
+spring:
+  rabbitmq:
+    host: RabbitQueue
+    port: 5672
+    username: guest
+    password: guest
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: 'http://Discovery:8761/eureka'
+bnz:
+  rabbitmq:
+    processingQueue: 'quiz_processing_queue'
+    responseQueue: 'quiz_response_queue'
+    queue:
+      consumerQueue: 'quiz_processing_queue'
+server:
+  port: 8887

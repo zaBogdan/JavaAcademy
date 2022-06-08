@@ -1,7 +1,7 @@
 package com.bnz.services.quizzes.controllers;
 
 import com.bnz.services.quizzes.models.Attenders;
-import com.bnz.services.quizzes.models.QuestionResponse;
+import com.bnz.shared.models.QuestionResponse;
 import com.bnz.services.quizzes.models.Quiz;
 import com.bnz.services.quizzes.services.QuizService;
 import com.bnz.shared.models.Response;
