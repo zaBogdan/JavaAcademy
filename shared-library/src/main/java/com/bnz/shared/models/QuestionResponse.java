@@ -1,5 +1,7 @@
 package com.bnz.shared.models;
 
+import java.util.Base64;
+
 public class QuestionResponse {
     private String questionUID;
     private String userId;
@@ -59,13 +61,12 @@ public class QuestionResponse {
     }
 
     public String getResponse() {
-        return response;
+        return new String(Base64.getDecoder().decode(response));
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public void setResponse(String codeTest) {
+        this.response = Base64.getEncoder().encodeToString(response.getBytes());
     }
-
     @Override
     public String toString() {
         return "QuestionResponse{" +

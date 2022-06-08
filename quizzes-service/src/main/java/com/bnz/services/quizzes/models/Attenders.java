@@ -24,14 +24,6 @@ public class Attenders {
     @Field(write=Field.Write.ALWAYS)
     private Map<String, DetailedScore> detailedScore = new HashMap<>();
 
-    public List<QuestionResponse> getQuestionInformation() {
-        return questionInformation;
-    }
-
-    public void setQuestionInformation(List<QuestionResponse> questionInformation) {
-        this.questionInformation = questionInformation;
-    }
-
     public void addScore(String uid, Integer value, String response) {
         this.detailedScore.put(uid, new DetailedScore(value, response));
     }

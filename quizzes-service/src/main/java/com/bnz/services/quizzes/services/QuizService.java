@@ -117,7 +117,8 @@ public class QuizService {
         if(attender == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You have no submitted answers to this quiz");
         }
-        if(attender.getQuestionInformation() == null) {
+
+        if(attender.getStatus() <= AttenderStatus.IN_VERIFICATION_PROCESS.getValue()) {
             throw new ResponseStatusException(HttpStatus.OK, "Evaluation is still in progress. Check it out in a few moments.");
         }
         attender.setUserId(null);

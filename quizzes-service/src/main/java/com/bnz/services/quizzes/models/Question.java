@@ -1,5 +1,6 @@
 package com.bnz.services.quizzes.models;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -8,8 +9,17 @@ public class Question {
     private String name;
     private int type; // 1 - code // TODO: 1 - choice, 2 - multiple choice
     private String language;
+    private String codeTest = "";
     private int score = 0;
     private String uid = UUID.randomUUID().toString().replace("-", "");
+
+    public String getCodeTest() {
+        return new String(Base64.getDecoder().decode(codeTest));
+    }
+
+    public void setCodeTest(String codeTest) {
+        this.codeTest = Base64.getEncoder().encodeToString(codeTest.getBytes());
+    }
 
     public String getLanguage() {
         return language;
