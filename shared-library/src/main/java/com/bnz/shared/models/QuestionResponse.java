@@ -61,11 +61,16 @@ public class QuestionResponse {
     }
 
     public String getResponse() {
+        if(response == null)
+            return null;
         return new String(Base64.getDecoder().decode(response));
     }
 
     public void setResponse(String codeTest) {
-        this.response = Base64.getEncoder().encodeToString(response.getBytes());
+        if(codeTest == null)
+            this.response = null;
+        else
+            this.response = Base64.getEncoder().encodeToString(codeTest.getBytes());
     }
     @Override
     public String toString() {

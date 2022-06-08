@@ -56,6 +56,7 @@ public class QuizController {
             quizService.processResponse(id, (String) data.get("sub"), questionResponseList);
             return new ResponseEntity<>(new Response<>(true, "Thanks for submission. We are now evaluating your answers."), HttpStatus.OK);
         } catch (ResponseStatusException e) {
+            System.out.println(e);
             return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());
         }
     }

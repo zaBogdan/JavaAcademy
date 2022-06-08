@@ -25,13 +25,18 @@ public class RabbitCallback {
     public void callback(RabbitMQModel<?> data) {
         try {
             log.info("[+] Callback entered at "+ new Date());
-            log.warn("[!] Starting to process"+data);
 //            TimeUnit.SECONDS.sleep(2);
             ObjectMapper mapper = new ObjectMapper();
             QuestionResponse question = mapper.convertValue(data.getData(), new TypeReference<>() {});
+            ICompiler compiler = null;
+            if(question.getLanguage().equals("java")){
+                compiler = new JavaReflectionCompiler();
+            }
+
+            question.setScore(compiler != null ? compiler.compile(question) : 0);
+            question.setResponse(compiler != null ? compiler.getResponse() : "Failed to find a valid compiler");
+
             System.out.println(question);
-            question.setScore(10);
-            question.setResponse("Successfully compiled and tested!");
             publisher.send(RabbitMQConstants.ROUTING_KEY_RESPONSE, new RabbitMQModel("response-data", "bdlpc-service", question));
             log.info("[+] Callback finished at "+ new Date());
         }catch (Exception e) {
