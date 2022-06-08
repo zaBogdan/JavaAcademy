@@ -1,13 +1,39 @@
 package com.bnz.services.quizzes.models;
 
+import com.bnz.shared.models.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.Date;
+import java.util.List;
 
 public class Attenders {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String userId;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Field(write=Field.Write.NON_NULL)
+    private User user = null;
     private int score;
     private Date startedAt;
     private Date finishedAt;
     private int status; // 1 - started, 2 - in progress, 3 - finished, 4 - not finished in time
+    private List<QuestionResponse> questionInformation;
+
+    public List<QuestionResponse> getQuestionInformation() {
+        return questionInformation;
+    }
+
+    public void setQuestionInformation(List<QuestionResponse> questionInformation) {
+        this.questionInformation = questionInformation;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getStatus() {
         return status;

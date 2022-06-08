@@ -1,5 +1,6 @@
 package com.bnz.services.quizzes.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mongodb.lang.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +12,10 @@ import java.util.List;
 @Document(collection = "quizzes")
 public class Quiz {
     @Id
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String ownerId;
     @NonNull
     private String name;
     @NonNull
@@ -22,11 +26,13 @@ public class Quiz {
     private Date updatedAt = new Date();
     private boolean acceptsAnswers = true;
     private boolean automaticallyClose = false;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date closeAt;
     @NonNull
     private Object quizTime;
     @NonNull
     private List<Question> questions;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Attenders> attenders;
 
     public String getId() {
@@ -35,6 +41,14 @@ public class Quiz {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     @NonNull

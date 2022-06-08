@@ -1,5 +1,6 @@
 package com.bnz.services.quizzes.controllers;
 
+import com.bnz.services.quizzes.models.Attenders;
 import com.bnz.services.quizzes.models.QuestionResponse;
 import com.bnz.services.quizzes.models.Quiz;
 import com.bnz.services.quizzes.services.QuizService;
@@ -30,7 +31,7 @@ public class QuizController {
             Map<String, Object> data = jwTokenHandler.getTokenData(headers);
             quizService.createQuiz(quiz, data);
             return new ResponseEntity<>(new Response<>(true, "Successfully created quiz"), HttpStatus.OK);
-        } catch (ResponseStatusException e){
+        } catch (ResponseStatusException e) {
             return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());
         }
     }
@@ -41,7 +42,7 @@ public class QuizController {
             Map<String, Object> data = jwTokenHandler.getTokenData(headers);
             quizService.startQuiz(id, (String) data.get("sub"));
             return new ResponseEntity<>(new Response<>(true, "Quiz started. Good luck!"), HttpStatus.OK);
-        } catch (ResponseStatusException e){
+        } catch (ResponseStatusException e) {
             return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());
         }
     }
@@ -52,9 +53,28 @@ public class QuizController {
             Map<String, Object> data = jwTokenHandler.getTokenData(headers);
             quizService.processResponse(id, (String) data.get("sub"), questionResponseList);
             return new ResponseEntity<>(new Response<>(true, "Thanks for submission. We are now evaluating your answers."), HttpStatus.OK);
-        } catch (ResponseStatusException e){
+        } catch (ResponseStatusException e) {
             return new ResponseEntity<>(new Response<>(false, e.getReason()), e.getStatus());
         }
     }
 
+    @GetMapping("/report/{id}")
+    public ResponseEntity<Response<Attenders>> reportForQuiz(@RequestHeader HttpHeaders headers, @PathVariable String id) {
+        try {
+            Map<String, Object> data = jwTokenHandler.getTokenData(headers);
+            return new ResponseEntity<>(new Response<>(true, "Your detailed report is here.", quizService.getAttenderResponseForQuiz(id, (String) data.get("sub"))), HttpStatus.OK);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(new Response<>(false, e.getReason(), null), e.getStatus());
+        }
+    }
+
+    @GetMapping("/report/complete/{id}")
+    public ResponseEntity<Response<Quiz>> getDetailedReportOfQuiz(@RequestHeader HttpHeaders headers, @PathVariable String id) {
+        try {
+            Map<String, Object> data = jwTokenHandler.getTokenData(headers);
+            return new ResponseEntity<>(new Response<>(true, "Your detailed report is here.", quizService.getQuizReportInformation(id, data)), HttpStatus.OK);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(new Response<>(false, e.getReason(), null), e.getStatus());
+        }
+    }
 }
