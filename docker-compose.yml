@@ -63,3 +63,16 @@ services:
     depends_on:
       - Configuration
       - Discovery
+  Quizzes:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+      args:
+        jar_name: quizzes-service
+        jar_path: quizzes
+        jar_port: 8885
+    image: bnz/quizzes-service
+    restart: always
+    depends_on:
+      - Configuration
+      - Discovery

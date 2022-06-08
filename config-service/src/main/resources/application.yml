@@ -3,7 +3,7 @@ spring:
     config:
       server:
         native:
-          search-locations: classpath:/shared/dev
+          search-locations: classpath:/shared/docker
   profiles:
     active: native
   security:
