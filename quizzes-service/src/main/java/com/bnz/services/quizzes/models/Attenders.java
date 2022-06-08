@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Attenders {
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -14,11 +16,13 @@ public class Attenders {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Field(write=Field.Write.NON_NULL)
     private User user = null;
-    private int score;
+    private int totalScore;
     private Date startedAt;
     private Date finishedAt;
     private int status; // 1 - started, 2 - in progress, 3 - finished, 4 - not finished in time
     private List<QuestionResponse> questionInformation;
+    @Field(write=Field.Write.ALWAYS)
+    private Map<String, DetailedScore> detailedScore = new HashMap<>();
 
     public List<QuestionResponse> getQuestionInformation() {
         return questionInformation;
@@ -26,6 +30,17 @@ public class Attenders {
 
     public void setQuestionInformation(List<QuestionResponse> questionInformation) {
         this.questionInformation = questionInformation;
+    }
+
+    public void addScore(String uid, Integer value, String response) {
+        this.detailedScore.put(uid, new DetailedScore(value, response));
+    }
+    public Map<String, DetailedScore> getDetailedScore() {
+        return detailedScore;
+    }
+
+    public void setDetailedScore(Map<String, DetailedScore> detailedScore) {
+        this.detailedScore = detailedScore;
     }
 
     public User getUser() {
@@ -68,19 +83,19 @@ public class Attenders {
         this.userId = userId;
     }
 
-    public int getScore() {
-        return score;
+    public int getTotalScore() {
+        return totalScore;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
     }
 
     @Override
     public String toString() {
         return "Attenders{" +
                 "userId='" + userId + '\'' +
-                ", score=" + score +
+                ", score=" + totalScore +
                 ", startedAt=" + startedAt +
                 ", finishedAt=" + finishedAt +
                 ", status=" + status +

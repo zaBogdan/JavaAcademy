@@ -60,7 +60,7 @@ public class QuizService {
         att.setUserId(userId);
         att.setStatus(AttenderStatus.STARTED.getValue());
         att.setStartedAt(new Date());
-        att.setScore(0);
+        att.setTotalScore(0);
         quiz.attendersQuestion(att);
         quizRepository.save(quiz);
     }
@@ -95,6 +95,7 @@ public class QuizService {
             questionResponse.setMaximumScore(question.getScore());
             questionResponse.setLanguage(question.getLanguage());
             questionResponse.setQuizId(quizId);
+            questionResponse.setUserId(userId);
             if(question.getType() == 1) {
                 attender.setStatus(AttenderStatus.IN_VERIFICATION_PROCESS.getValue());
                 // publish to rabbit

@@ -2,11 +2,21 @@ package com.bnz.shared.models;
 
 public class QuestionResponse {
     private String questionUID;
+    private String userId;
     private String response;
     private String quizId;
     private int maximumScore;
     private int score;
     private String language;
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getQuizId() {
         return quizId;

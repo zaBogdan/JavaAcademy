@@ -26,7 +26,7 @@ public class RabbitCallback {
         try {
             log.info("[+] Callback entered at "+ new Date());
             log.warn("[!] Starting to process"+data);
-            TimeUnit.SECONDS.sleep(2);
+//            TimeUnit.SECONDS.sleep(2);
             ObjectMapper mapper = new ObjectMapper();
             QuestionResponse question = mapper.convertValue(data.getData(), new TypeReference<>() {});
             System.out.println(question);
