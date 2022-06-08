@@ -24,6 +24,7 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
@@ -155,6 +156,15 @@ public class QuizService {
 
     }
 
+    public List<Quiz> getFirstQuizzes(int count, int offset) {
+        if(count < 0 || count > 50) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Count must be between 0 and 50");
+        }
+        if(offset < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Offset must be greater then 0");
+        }
+        return quizRepository.findQuizByAcceptsAnswersEqualsOrderByUpdatedAt(true).stream().limit(count).collect(Collectors.toList());
+    }
     private void validateQuiz(Quiz quiz) throws ResponseStatusException {
         if(!quiz.isAcceptsAnswers()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quiz is currently closed.");

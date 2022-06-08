@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.ws.rs.QueryParam;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/quiz")
@@ -73,6 +75,23 @@ public class QuizController {
         try {
             Map<String, Object> data = jwTokenHandler.getTokenData(headers);
             return new ResponseEntity<>(new Response<>(true, "Your detailed report is here.", quizService.getQuizReportInformation(id, data)), HttpStatus.OK);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(new Response<>(false, e.getReason(), null), e.getStatus());
+        }
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<Response<List<Quiz>>> getDetailedReportOfQuiz(@RequestHeader HttpHeaders headers, @RequestParam("offset") Optional<Integer> offset, @RequestParam("count") Optional<Integer> count) {
+        try {
+            int offsetInt = 0, countInt = 50;
+            if(offset.isPresent()) {
+                offsetInt = offset.get();
+            }
+            if(count.isPresent()) {
+                countInt = count.get();
+            }
+            Map<String, Object> data = jwTokenHandler.getTokenData(headers);
+            return new ResponseEntity<>(new Response<>(true, "Quizzes fetched successfully.", quizService.getFirstQuizzes(countInt, offsetInt)), HttpStatus.OK);
         } catch (ResponseStatusException e) {
             return new ResponseEntity<>(new Response<>(false, e.getReason(), null), e.getStatus());
         }
