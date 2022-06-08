@@ -1,14 +1,12 @@
 package com.bnz.services.quizzes.models;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
 import java.util.Date;
 
 public class Attenders {
-    @DBRef
     private String userId;
     private int score;
-    private Date triedAt;
+    private Date startedAt;
+    private Date finishedAt;
     private int status; // 1 - started, 2 - in progress, 3 - finished, 4 - not finished in time
 
     public int getStatus() {
@@ -17,6 +15,22 @@ public class Attenders {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Date getStartedAt() {
+        return startedAt;
+    }
+
+    public void setStartedAt(Date startedAt) {
+        this.startedAt = startedAt;
+    }
+
+    public Date getFinishedAt() {
+        return finishedAt;
+    }
+
+    public void setFinishedAt(Date finishedAt) {
+        this.finishedAt = finishedAt;
     }
 
     public String getUserId() {
@@ -35,20 +49,14 @@ public class Attenders {
         this.score = score;
     }
 
-    public Date getTriedAt() {
-        return triedAt;
-    }
-
-    public void setTriedAt(Date triedAt) {
-        this.triedAt = triedAt;
-    }
-
     @Override
     public String toString() {
         return "Attenders{" +
                 "userId='" + userId + '\'' +
                 ", score=" + score +
-                ", triedAt=" + triedAt +
+                ", startedAt=" + startedAt +
+                ", finishedAt=" + finishedAt +
+                ", status=" + status +
                 '}';
     }
 }

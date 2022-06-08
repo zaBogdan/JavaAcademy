@@ -4,4 +4,5 @@ import com.bnz.services.quizzes.models.Quiz;
 import org.springframework.data.repository.CrudRepository;
 
 public interface QuizRepository extends CrudRepository<Quiz, String> {
+    Quiz findQuizById(String id);
 }
